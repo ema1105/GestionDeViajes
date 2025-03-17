@@ -9,10 +9,10 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Usuario {
+public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(nullable = false)
@@ -21,7 +21,6 @@ public abstract class Usuario {
     @Column(nullable = false)
     private String apellidos_completos;
 
-    /*FECHA DE NACICMEINTO PARA SABER SI EL USUARIO ES MAYOR DE EDAD*/
     @Column(nullable = false)
     private LocalDate fecha_nacimiento;
 
@@ -42,9 +41,9 @@ public abstract class Usuario {
     }
 
     @Column(nullable = false, unique = true)
-    private String usuario;
+    private String nombreUsuario;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String contraseña;
 
     @Enumerated(EnumType.STRING)
@@ -56,21 +55,17 @@ public abstract class Usuario {
             CONDUCTOR
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 236cab9 (AHORA SI EL PROYECTO XD)
     public Usuario() {
     }
 
     public Usuario(Long id, String nombre_completo, String apellidos_completos,
-                   LocalDate fecha_nacimiento, String numero_telefonico, String usuario, String contraseña, String numero_documento) {
+                   LocalDate fecha_nacimiento, String numero_telefonico, String nombreUsuario, String contraseña, String numero_documento) {
         this.id = id;
         this.nombre_completo = nombre_completo;
         this.apellidos_completos = apellidos_completos;
         this.fecha_nacimiento = fecha_nacimiento;
         this.numero_telefonico = numero_telefonico;
-        this.usuario = usuario;
+        this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
         this.numero_documento = numero_documento;
     }
@@ -123,12 +118,20 @@ public abstract class Usuario {
         this.tipoDocumento = tipoDocumento;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getNumero_documento() {
+        return numero_documento;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setNumero_documento(String numero_documento) {
+        this.numero_documento = numero_documento;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getContraseña() {
@@ -137,14 +140,6 @@ public abstract class Usuario {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
-    }
-
-    public String getNumero_documento() {
-        return numero_documento;
-    }
-
-    public void setNumero_documento(String numero_documento) {
-        this.numero_documento = numero_documento;
     }
 
     public TipoUsuario getTipoUsuario() {
@@ -157,33 +152,31 @@ public abstract class Usuario {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Usuario)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return Objects.equals(id, usuario.id) &&
-                Objects.equals(numero_telefonico, usuario.numero_telefonico) &&
-                Objects.equals(usuario, usuario.usuario) &&
-                Objects.equals(numero_documento, usuario.numero_documento);
+        return Objects.equals(getId(), usuario.getId()) &&
+                Objects.equals(getNumero_telefonico(), usuario.getNumero_telefonico()) &&
+                Objects.equals(getNumero_documento(), usuario.getNumero_documento()) &&
+                Objects.equals(getNombreUsuario(), usuario.getNombreUsuario());
     }
 
-
     @Override
-    public int hashCode(){
-    return Objects.hash(id, numero_telefonico, usuario, numero_documento);
+    public int hashCode() {
+        return Objects.hash(getId(), getNumero_telefonico(), getNumero_documento(), getNombreUsuario());
     }
 
     @Override
     public String toString() {
         return "Usuario{" +
-                "id=" + id +
-                ", nombre_completo='" + nombre_completo + '\'' +
-                ", apellidos_completos='" + apellidos_completos + '\'' +
-                ", fecha_nacimiento=" + fecha_nacimiento +
-                ", numero_telefonico='" + numero_telefonico + '\'' +
-                ", tipoDocumento=" + tipoDocumento +
+                "contraseña='" + contraseña + '\'' +
+                ", nombreUsuario='" + nombreUsuario + '\'' +
                 ", numero_documento='" + numero_documento + '\'' +
-                ", usuario='" + usuario + '\'' +
-                ", contraseña='" + contraseña + '\'' +
+                ", tipoDocumento=" + tipoDocumento +
+                ", numero_telefonico='" + numero_telefonico + '\'' +
+                ", fecha_nacimiento=" + fecha_nacimiento +
+                ", apellidos_completos='" + apellidos_completos + '\'' +
+                ", nombre_completo='" + nombre_completo + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

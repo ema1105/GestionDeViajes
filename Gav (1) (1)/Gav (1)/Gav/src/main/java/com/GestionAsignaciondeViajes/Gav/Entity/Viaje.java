@@ -22,40 +22,45 @@ public class Viaje implements Serializable {
     private double precioViaje;
 
     @Column(nullable = false)
-    private int CantidadPasajeros;
+    private int cantidadPasajeros;
 
    @Temporal(TemporalType.DATE)
     Date fechaViaje;
 
    @ManyToOne
-   @JoinColumn(name = "CONDUCTOR", nullable = false)
+   @JoinColumn(name = "conductor_id", nullable = false)
     private Conductor conductor;
 
    @ManyToOne
-   @JoinColumn(name = "CLIENTE", nullable = false)
+   @JoinColumn(name = "cliente_id", nullable = false)
    private Cliente cliente;
+
+   @ManyToOne
+   @JoinColumn(name = "automovil_id", nullable = false)
+   private Automovil automovil;
 
    public enum EstadoViaje{
        SOLICITADO,
        ASIGNADO,
+       EN_CURSO,
        COMPLETADO,
-       CANCELADO,
-       EN_CURSO;
+       CANCELADO
+
    }
 
     public Viaje() {
     }
 
-    public Viaje(Long id, String destino, EstadoViaje estadoViaje, double precioViaje, int cantidadPasajeros,
-                 Date fechaViaje, Conductor conductor, Cliente cliente) {
+    public Viaje(Long id, String destino, EstadoViaje estadoViaje, double precioViaje, int cantidadPasajeros, Date fechaViaje, Conductor conductor, Cliente cliente, Automovil automovil) {
         this.id = id;
         this.destino = destino;
         this.estadoViaje = estadoViaje;
         this.precioViaje = precioViaje;
-        CantidadPasajeros = cantidadPasajeros;
+        this.cantidadPasajeros = cantidadPasajeros;
         this.fechaViaje = fechaViaje;
         this.conductor = conductor;
         this.cliente = cliente;
+        this.automovil = automovil;
     }
 
     public Long getId() {
@@ -91,11 +96,11 @@ public class Viaje implements Serializable {
     }
 
     public int getCantidadPasajeros() {
-        return CantidadPasajeros;
+        return cantidadPasajeros;
     }
 
     public void setCantidadPasajeros(int cantidadPasajeros) {
-        CantidadPasajeros = cantidadPasajeros;
+        this.cantidadPasajeros = cantidadPasajeros;
     }
 
     public Date getFechaViaje() {
@@ -122,6 +127,14 @@ public class Viaje implements Serializable {
         this.cliente = cliente;
     }
 
+    public Automovil getAutomovil() {
+        return automovil;
+    }
+
+    public void setAutomovil(Automovil automovil) {
+        this.automovil = automovil;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -142,10 +155,11 @@ public class Viaje implements Serializable {
                 ", destino='" + destino + '\'' +
                 ", estadoViaje=" + estadoViaje +
                 ", precioViaje=" + precioViaje +
-                ", CantidadPasajeros=" + CantidadPasajeros +
+                ", CantidadPasajeros=" + cantidadPasajeros +
                 ", fechaViaje=" + fechaViaje +
                 ", conductor=" + conductor +
                 ", cliente=" + cliente +
+                ", automovil=" + automovil +
                 '}';
     }
 }
